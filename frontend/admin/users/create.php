@@ -36,80 +36,13 @@ $adminName = $_SESSION["nama"] ?? "Admin";
         }
 
         /* =========================
-           SIDEBAR
-        ========================= */
-
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 240px;
-            height: 100vh;
-            background: #0f172a;
-            color: white;
-            padding: 24px 16px;
-            z-index: 1000;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 30px;
-            padding: 0 12px;
-        }
-
-        .logo span {
-            color: #3b82f6;
-        }
-
-        .menu {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .menu a {
-            color: #cbd5e1;
-            text-decoration: none;
-            padding: 12px 14px;
-            border-radius: 8px;
-            transition: 0.2s;
-            font-size: 14px;
-        }
-
-        .menu a:hover,
-        .menu a.active {
-            background: #1e3a8a;
-            color: white;
-        }
-
-        .logout {
-            margin-top: 25px;
-            border-top: 1px solid #334155;
-            padding-top: 20px;
-        }
-
-        .logout button {
-            width: 100%;
-            border: none;
-            background: #dc2626;
-            color: white;
-            padding: 11px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .logout button:hover {
-            background: #b91c1c;
-        }
-
-        /* =========================
            MAIN
         ========================= */
 
         .main {
-            margin-left: 240px;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
             min-height: 100vh;
             padding: 30px;
         }
@@ -140,7 +73,7 @@ $adminName = $_SESSION["nama"] ?? "Admin";
             border-radius: 14px;
             padding: 28px;
             box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
-            max-width: 900px;
+            width: 100%;
         }
 
         .section-title {
@@ -355,13 +288,7 @@ $adminName = $_SESSION["nama"] ?? "Admin";
         ========================= */
 
         @media (max-width: 900px) {
-
-            .sidebar {
-                width: 210px;
-            }
-
             .main {
-                margin-left: 210px;
                 padding: 20px;
             }
 
@@ -375,22 +302,6 @@ $adminName = $_SESSION["nama"] ?? "Admin";
         }
 
         @media (max-width: 700px) {
-
-            .sidebar {
-                position: relative;
-                width: 100%;
-                height: auto;
-            }
-
-            .menu {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .main {
-                margin-left: 0;
-            }
-
             .topbar {
                 flex-direction: column;
                 align-items: flex-start;
@@ -399,7 +310,6 @@ $adminName = $_SESSION["nama"] ?? "Admin";
         }
 
         @media (max-width: 500px) {
-
             .main {
                 padding: 15px;
             }
@@ -425,74 +335,6 @@ $adminName = $_SESSION["nama"] ?? "Admin";
 </head>
 
 <body>
-
-<!-- =========================
-     SIDEBAR
-========================= -->
-
-<aside class="sidebar">
-
-    <div class="logo">
-        Pus<span>tanka</span>
-    </div>
-
-    <nav class="menu">
-
-        <a href="../dashboard/index.php">
-            📊 Dashboard
-        </a>
-
-        <a href="../profile/index.php">
-            👤 Profile
-        </a>
-
-        <a href="../books/index.php">
-            📚 Books
-        </a>
-
-        <a href="index.php" class="active">
-            👥 Users
-        </a>
-
-        <a href="../loans/index.php">
-            📖 Loans
-        </a>
-
-        <a href="../attendance/index.php">
-            📅 Attendance
-        </a>
-
-        <a href="../returns/index.php">
-            ↩️ Returns
-        </a>
-
-        <a href="../reports/index.php">
-            📊 Reports
-        </a>
-
-        <a href="../fines/index.php">
-            💰 Fines
-        </a>
-
-        <a href="../payments/index.php">
-            💳 Payments
-        </a>
-
-    </nav>
-
-    <div class="logout">
-
-        <button
-            type="button"
-            onclick="logout()"
-        >
-            🚪 Logout
-        </button>
-
-    </div>
-
-</aside>
-
 
 <!-- =========================
      MAIN
@@ -1338,36 +1180,6 @@ function hideError() {
 
     alertBox.style.display =
         "none";
-
-}
-
-
-/* =========================
-   LOGOUT
-========================= */
-
-async function logout() {
-
-    try {
-
-        await fetch(
-            API_BASE +
-            "/auth/logout.php",
-            {
-                method: "POST",
-                credentials: "include"
-            }
-        );
-
-    } catch (error) {
-
-        console.error(error);
-
-    }
-
-
-    window.location.href =
-        "../../auth/login.php";
 
 }
 
