@@ -1,0 +1,186 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #1a1a1a;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-container {
+    display: flex;
+    width: 1000px;
+    max-width: 95%;
+    min-height: 600px;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Bagian Kiri (Hero / Banner) */
+.auth-hero {
+    flex: 1;
+    background: linear-gradient(rgba(10, 37, 64, 0.85), rgba(10, 37, 64, 0.85)),
+                url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=1000&auto=format&fit=crop') center/cover no-repeat;
+    color: #ffffff;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.quote-box {
+    max-width: 380px;
+}
+
+.quote-box p {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+.quote-box span {
+    font-size: 0.95rem;
+    color: #cbd5e1;
+}
+
+/* Bagian Kanan (Form) */
+.auth-form-container {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #ffffff;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo-img {
+    height: 60px;
+    object-fit: contain;
+    margin-bottom: 15px;
+}
+
+.auth-header h2 {
+    color: #0d3b66;
+    font-size: 1.6rem;
+    margin-bottom: 6px;
+}
+
+.auth-header p {
+    color: #64748b;
+    font-size: 0.88rem;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 6px;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input-wrapper input:focus {
+    border-color: #0d3b66;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 1.1rem;
+    color: #64748b;
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #1e293b;
+}
+
+.forgot-password, .switch-auth {
+    color: #0d3b66;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.forgot-password:hover, .switch-auth:hover {
+    text-decoration: underline;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    background-color: #0d3b66;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-submit:hover {
+    background-color: #092846;
+}
+
+.auth-footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #94a3b8;
+    margin-top: 20px;
+}
+
+/* Responsif untuk Layar Kecil */
+@media (max-width: 768px) {
+    .auth-hero {
+        display: none;
+    }
+    .auth-container {
+        width: 100%;
+        min-height: auto;
+    }
+}

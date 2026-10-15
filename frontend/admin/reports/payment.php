@@ -1,0 +1,1405 @@
+<?php
+
+session_set_cookie_params([
+    "httponly" => true,
+    "secure" => false,
+    "samesite" => "Lax"
+]);
+
+session_start();
+
+if (
+    !isset($_SESSION["id_admin"]) ||
+    !is_numeric($_SESSION["id_admin"]) ||
+    (int) $_SESSION["id_admin"] <= 0 ||
+    ($_SESSION["role"] ?? "") !== "admin"
+) {
+    header("Location: ../../auth/login.php");
+    exit;
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Laporan Pembayaran - Pustanka</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* =========================
+           CONTENT
+        ========================= */
+
+        .content {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .header {
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 6px;
+        }
+
+        .header p {
+            color: #64748b;
+        }
+
+        /* =========================
+           BACK BUTTON
+        ========================= */
+
+        .back-btn-wrapper {
+            margin-bottom: 20px;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            background: #e2e8f0;
+            color: #334155;
+            padding: 9px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .btn-back:hover {
+            background: #cbd5e1;
+        }
+
+        /* =========================
+           FILTER
+        ========================= */
+
+        .filter-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 15px;
+            align-items: end;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            outline: none;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #2563eb;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 8px;
+            padding: 10px 18px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-reset {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .btn-reset:hover {
+            background: #d1d5db;
+        }
+
+        /* =========================
+           SUMMARY
+        ========================= */
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .summary-title {
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .summary-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .summary-subtitle {
+            color: #94a3b8;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .table-header h2 {
+            font-size: 19px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 14px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+            white-space: nowrap;
+        }
+
+        th {
+            background: #f8fafc;
+            font-size: 13px;
+            color: #475569;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        /* =========================
+           STATUS
+        ========================= */
+
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-disetujui {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-ditolak {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .status-lain {
+            background: #e2e8f0;
+            color: #475569;
+        }
+
+        /* =========================
+           METODE
+        ========================= */
+
+        .method {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 6px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* =========================
+           NOMINAL
+        ========================= */
+
+        .nominal {
+            font-weight: bold;
+        }
+
+        /* =========================
+           EMPTY / ERROR
+        ========================= */
+
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        /* =========================
+           PAGINATION
+        ========================= */
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 20px;
+        }
+
+        .pagination button {
+            border: 1px solid #d1d5db;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .pagination button.active {
+            background: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 1100px) {
+
+            .filter-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .content {
+                padding: 20px;
+            }
+
+            .filter-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- =========================
+         CONTENT
+    ========================= -->
+
+    <main class="content">
+
+        <!-- TOMBOL KEMBALI -->
+        <div class="back-btn-wrapper">
+            <a href="./dashboard/summary.php" class="btn-back">
+                ← Kembali ke Ringkasan Laporan
+            </a>
+        </div>
+
+        <div class="header">
+
+            <h1>
+                Laporan Pembayaran
+            </h1>
+
+            <p>
+                Menampilkan seluruh riwayat pembayaran denda.
+            </p>
+
+        </div>
+
+
+        <div
+            id="errorBox"
+            class="error"
+        ></div>
+
+
+        <!-- =========================
+             FILTER
+        ========================= -->
+
+        <div class="filter-card">
+
+            <div class="filter-grid">
+
+                <div class="form-group">
+
+                    <label for="tanggalMulai">
+                        Tanggal Mulai
+                    </label>
+
+                    <input
+                        type="date"
+                        id="tanggalMulai"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="tanggalSelesai">
+                        Tanggal Selesai
+                    </label>
+
+                    <input
+                        type="date"
+                        id="tanggalSelesai"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="statusFilter">
+                        Status Pembayaran
+                    </label>
+
+                    <select id="statusFilter">
+
+                        <option value="">
+                            Semua Status
+                        </option>
+
+                        <option value="pending">
+                            Pending
+                        </option>
+
+                        <option value="disetujui">
+                            Disetujui
+                        </option>
+
+                        <option value="ditolak">
+                            Ditolak
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-buttons">
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="loadData(1)"
+                    >
+                        Filter
+                    </button>
+
+                    <button
+                        class="btn btn-reset"
+                        onclick="resetFilter()"
+                    >
+                        Reset
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             SUMMARY
+        ========================= -->
+
+        <div class="summary-grid">
+
+            <div class="summary-card">
+
+                <div class="summary-title">
+                    Total Pembayaran
+                </div>
+
+                <div
+                    class="summary-value"
+                    id="summaryTotal"
+                >
+                    0
+                </div>
+
+                <div class="summary-subtitle">
+                    Seluruh transaksi
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="summary-title">
+                    Pending
+                </div>
+
+                <div
+                    class="summary-value"
+                    id="summaryPending"
+                >
+                    0
+                </div>
+
+                <div class="summary-subtitle">
+                    Menunggu verifikasi
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="summary-title">
+                    Disetujui
+                </div>
+
+                <div
+                    class="summary-value"
+                    id="summaryDisetujui"
+                >
+                    0
+                </div>
+
+                <div class="summary-subtitle">
+                    Pembayaran berhasil
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="summary-title">
+                    Ditolak
+                </div>
+
+                <div
+                    class="summary-value"
+                    id="summaryDitolak"
+                >
+                    0
+                </div>
+
+                <div class="summary-subtitle">
+                    Pembayaran ditolak
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             TABLE
+        ========================= -->
+
+        <div class="table-card">
+
+            <div class="table-header">
+
+                <h2 id="totalData">
+                    Laporan Pembayaran
+                </h2>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                No
+                            </th>
+
+                            <th>
+                                ID Pembayaran
+                            </th>
+
+                            <th>
+                                ID Denda
+                            </th>
+
+                            <th>
+                                ID Anggota
+                            </th>
+
+                            <th>
+                                Member Code
+                            </th>
+
+                            <th>
+                                Nama Anggota
+                            </th>
+
+                            <th>
+                                Judul Buku
+                            </th>
+
+                            <th>
+                                Nominal
+                            </th>
+
+                            <th>
+                                Metode
+                            </th>
+
+                            <th>
+                                Tanggal Bayar
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="tableBody">
+
+                        <tr>
+
+                            <td
+                                colspan="9"
+                                class="empty"
+                            >
+                                Memuat data...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div
+                id="pagination"
+                class="pagination"
+            ></div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script>
+
+const API_URL =
+    "../../../api/reports/payments.php";
+
+let currentPage = 1;
+
+const limit = 10;
+
+
+/* =========================
+   FORMAT RUPIAH
+========================= */
+
+function formatRupiah(value) {
+
+    const number =
+        Number(value || 0);
+
+    return new Intl.NumberFormat(
+        "id-ID",
+        {
+            style: "currency",
+            currency: "IDR",
+            maximumFractionDigits: 0
+        }
+    ).format(number);
+
+}
+
+
+/* =========================
+   FORMAT TANGGAL
+========================= */
+
+function formatDate(dateString) {
+
+    if (!dateString) {
+        return "-";
+    }
+
+    const date =
+        new Date(dateString);
+
+    if (isNaN(date)) {
+        return dateString;
+    }
+
+    return date.toLocaleDateString(
+        "id-ID",
+        {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric"
+        }
+    );
+
+}
+
+
+/* =========================
+   FORMAT METODE
+========================= */
+
+function formatMethod(method) {
+
+    if (!method) {
+        return "-";
+    }
+
+    const value =
+        String(method).toLowerCase();
+
+    if (value === "qris") {
+        return "QRIS";
+    }
+
+    if (
+        value === "transfer_bank" ||
+        value === "transfer"
+    ) {
+        return "Transfer Bank";
+    }
+
+    return method;
+
+}
+
+
+/* =========================
+   ESCAPE HTML
+========================= */
+
+function escapeHtml(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+function getStatusClass(status) {
+
+    if (status === "pending") {
+        return "status-pending";
+    }
+
+    if (status === "disetujui") {
+        return "status-disetujui";
+    }
+
+    if (status === "ditolak") {
+        return "status-ditolak";
+    }
+
+    return "status-lain";
+
+}
+
+
+function getStatusLabel(status) {
+
+    if (status === "pending") {
+        return "Pending";
+    }
+
+    if (status === "disetujui") {
+        return "Disetujui";
+    }
+
+    if (status === "ditolak") {
+        return "Ditolak";
+    }
+
+    return status || "-";
+
+}
+
+
+/* =========================
+   LOAD DATA
+========================= */
+
+async function loadData(page = 1) {
+
+    currentPage = page;
+
+    const tbody =
+        document.getElementById(
+            "tableBody"
+        );
+
+    const errorBox =
+        document.getElementById(
+            "errorBox"
+        );
+
+    errorBox.style.display = "none";
+
+    tbody.innerHTML = `
+        <tr>
+            <td
+                colspan="9"
+                class="empty"
+            >
+                Memuat data...
+            </td>
+        </tr>
+    `;
+
+
+    const params =
+        new URLSearchParams();
+
+
+    params.append(
+        "page",
+        currentPage
+    );
+
+
+    params.append(
+        "limit",
+        limit
+    );
+
+
+    const tanggalMulai =
+        document.getElementById(
+            "tanggalMulai"
+        ).value;
+
+
+    const tanggalSelesai =
+        document.getElementById(
+            "tanggalSelesai"
+        ).value;
+
+
+    const status =
+        document.getElementById(
+            "statusFilter"
+        ).value;
+
+
+    if (tanggalMulai) {
+
+        params.append(
+            "tanggal_mulai",
+            tanggalMulai
+        );
+
+    }
+
+
+    if (tanggalSelesai) {
+
+        params.append(
+            "tanggal_selesai",
+            tanggalSelesai
+        );
+
+    }
+
+
+    if (status) {
+
+        params.append(
+            "status",
+            status
+        );
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}?${params.toString()}`,
+                {
+                    method: "GET",
+                    credentials: "include"
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (response.status === 401) {
+
+            window.location.href =
+                "../../auth/login.php";
+
+            return;
+
+        }
+
+
+        if (
+            !response.ok ||
+            !result.status
+        ) {
+
+            throw new Error(
+                result.message ||
+                "Gagal mengambil laporan pembayaran."
+            );
+
+        }
+
+
+        const data =
+            Array.isArray(result.data)
+                ? result.data
+                : [];
+
+
+        renderTable(data);
+
+        renderSummary(data);
+
+        renderPagination(
+            result.pagination || {}
+        );
+
+
+    } catch (error) {
+
+        tbody.innerHTML = `
+            <tr>
+                <td
+                    colspan="9"
+                    class="empty"
+                >
+                    Gagal memuat data.
+                </td>
+            </tr>
+        `;
+
+
+        errorBox.textContent =
+            error.message;
+
+
+        errorBox.style.display =
+            "block";
+
+    }
+
+}
+
+
+/* =========================
+   RENDER SUMMARY
+========================= */
+
+function renderSummary(data) {
+
+    const total =
+        data.length;
+
+
+    const pending =
+        data.filter(
+            item =>
+                item.status === "pending"
+        ).length;
+
+
+    const disetujui =
+        data.filter(
+            item =>
+                item.status === "disetujui"
+        ).length;
+
+
+    const ditolak =
+        data.filter(
+            item =>
+                item.status === "ditolak"
+        ).length;
+
+
+    document.getElementById(
+        "summaryTotal"
+    ).textContent = total;
+
+
+    document.getElementById(
+        "summaryPending"
+    ).textContent = pending;
+
+
+    document.getElementById(
+        "summaryDisetujui"
+    ).textContent = disetujui;
+
+
+    document.getElementById(
+        "summaryDitolak"
+    ).textContent = ditolak;
+
+}
+
+
+/* =========================
+   RENDER TABLE
+========================= */
+
+function renderTable(data) {
+
+    const tbody =
+        document.getElementById(
+            "tableBody"
+        );
+
+
+    const totalData =
+        document.getElementById(
+            "totalData"
+        );
+
+
+    if (!data.length) {
+
+        tbody.innerHTML = `
+            <tr>
+                <td
+                    colspan="9"
+                    class="empty"
+                >
+                    Tidak ada data pembayaran.
+                </td>
+            </tr>
+        `;
+
+
+        totalData.textContent =
+            "Laporan Pembayaran — 0 data";
+
+
+        renderSummary([]);
+
+        return;
+
+    }
+
+
+    totalData.textContent =
+        `Laporan Pembayaran — ${data.length} data`;
+
+
+    tbody.innerHTML =
+        data.map(
+            (item, index) => {
+
+                const nomor =
+                    (
+                        (currentPage - 1) *
+                        limit
+                    ) +
+                    index +
+                    1;
+
+
+                const idPayment =
+                    item.id_payment ||
+                    "-";
+
+
+                const idFine =
+                    item.id_fine ||
+                    "-";
+
+                const idUser =
+                    item.id_user ||
+                    "-";
+
+                const memberCode =
+                    item.member_code ||
+                    "-";
+
+
+                const nama =
+                    item.nama_peminjam ||
+                    item.nama_user ||
+                    item.nama ||
+                    item.peminjam?.nama ||
+                    "-";
+
+
+                const judul =
+                    item.judul_buku ||
+                    item.judul ||
+                    item.buku?.judul ||
+                    "-";
+
+
+                const nominal =
+                    item.nominal ||
+                    item.nominal_pembayaran ||
+                    0;
+
+
+                const metode =
+                    item.metode ||
+                    "-";
+
+
+                const tanggal =
+                    item.tanggal_bayar ||
+                    item.created_at ||
+                    "-";
+
+
+                const status =
+                    item.status ||
+                    "pending";
+
+
+                return `
+                    <tr>
+
+                        <td>
+                            ${nomor}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(idPayment)}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(idFine)}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(idUser)}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(memberCode)}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(nama)}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(judul)}
+                        </td>
+
+                        <td class="nominal">
+                            ${formatRupiah(nominal)}
+                        </td>
+
+                        <td>
+
+                            <span class="method">
+                                ${escapeHtml(
+                                    formatMethod(metode)
+                                )}
+                            </span>
+
+                        </td>
+
+                        <td>
+                            ${formatDate(tanggal)}
+                        </td>
+
+                        <td>
+
+                            <span
+                                class="status ${getStatusClass(status)}"
+                            >
+                                ${escapeHtml(
+                                    getStatusLabel(status)
+                                )}
+                            </span>
+
+                        </td>
+
+                    </tr>
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+/* =========================
+   PAGINATION
+========================= */
+
+function renderPagination(
+    pagination
+) {
+
+    const container =
+        document.getElementById(
+            "pagination"
+        );
+
+
+    const totalPages =
+        Number(
+            pagination.total_pages ||
+            pagination.pages ||
+            1
+        );
+
+
+    if (totalPages <= 1) {
+
+        container.innerHTML = "";
+
+        return;
+
+    }
+
+
+    let html = "";
+
+
+    html += `
+        <button
+            onclick="loadData(${currentPage - 1})"
+            ${currentPage <= 1 ? "disabled" : ""}
+        >
+            ←
+        </button>
+    `;
+
+
+    for (
+        let i = 1;
+        i <= totalPages;
+        i++
+    ) {
+
+        html += `
+            <button
+                class="${i === currentPage ? "active" : ""}"
+                onclick="loadData(${i})"
+            >
+                ${i}
+            </button>
+        `;
+
+    }
+
+
+    html += `
+        <button
+            onclick="loadData(${currentPage + 1})"
+            ${
+                currentPage >= totalPages
+                    ? "disabled"
+                    : ""
+            }
+        >
+            →
+        </button>
+    `;
+
+
+    container.innerHTML = html;
+
+}
+
+
+/* =========================
+   RESET FILTER
+========================= */
+
+function resetFilter() {
+
+    document.getElementById(
+        "tanggalMulai"
+    ).value = "";
+
+
+    document.getElementById(
+        "tanggalSelesai"
+    ).value = "";
+
+
+    document.getElementById(
+        "statusFilter"
+    ).value = "";
+
+
+    loadData(1);
+
+}
+
+
+/* =========================
+   INITIAL LOAD
+========================= */
+
+loadData();
+
+</script>
+
+</body>
+
+</html>
