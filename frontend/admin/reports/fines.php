@@ -369,7 +369,39 @@ if (
 
         }
 
-    </style>
+    
+        /* CETAK / SIMPAN SEBAGAI PDF */
+        .pdf-download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border: 0;
+            border-radius: 8px;
+            background: #173b70;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 8px 0 18px;
+        }
+        .pdf-download-btn:hover { background: #24539a; }
+        @media print {
+            @page { size: A4 landscape; margin: 12mm; }
+            body { background: #fff !important; color: #111 !important; }
+            .sidebar, aside, .back-btn-wrapper, .filter-card, .pdf-download-btn,
+            .logout-btn, nav, .pagination, .filter-actions, .filter-buttons,
+            button, input, select { display: none !important; }
+            .layout, .main, .content, main { display: block !important; width: 100% !important; max-width: none !important; margin: 0 !important; padding: 0 !important; }
+            .header { margin: 0 0 14px !important; padding: 0 0 10px !important; box-shadow: none !important; border-bottom: 1px solid #999; }
+            table { width: 100% !important; border-collapse: collapse !important; font-size: 9pt !important; }
+            thead { display: table-header-group; }
+            tr { break-inside: avoid; page-break-inside: avoid; }
+            th, td { border: 1px solid #999 !important; color: #111 !important; padding: 5px !important; }
+            .error, .message { display: none !important; }
+            canvas, svg { max-width: 100% !important; }
+        }
+
+</style>
 
 </head>
 
@@ -401,6 +433,8 @@ if (
             </p>
 
         </div>
+
+        <button type="button" class="pdf-download-btn" onclick="window.print()">⬇ Cetak / Simpan PDF</button>
 
 
         <div
