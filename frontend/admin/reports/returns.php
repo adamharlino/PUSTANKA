@@ -402,8 +402,6 @@ if (
                         <tr>
                             <th>No</th>
                             <th>ID Peminjaman</th>
-                            <th>ID Anggota</th>
-                            <th>Member Code</th>
                             <th>Nama Anggota</th>
                             <th>Judul Buku</th>
                             <th>Tanggal Pinjam</th>
@@ -635,16 +633,9 @@ function renderTable(data) {
                     ${escapeHtml(item.id_loan)}
                 </td>
 
-                <td>
-                    ${escapeHtml(item.id_user)}
-                </td>
+                
 
-                <td>
-                    ${escapeHtml(
-                        item.member_code ||
-                        "-"
-                    )}
-                </td>
+                
 
                 <td>
                     ${escapeHtml(

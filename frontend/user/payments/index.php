@@ -32,7 +32,7 @@ if (
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Denda & Pembayaran - Pustanka</title>
+    <title>Pembayaran Denda - Pustanka</title>
 
     <style>
 
@@ -692,12 +692,12 @@ if (
                 <h2>PUSTANKA</h2>
             </div>
             <ul class="sidebar-menu">
-                <li><a href="../dashboard/index.php"> Dashboard</a></li>
-                <li><a href="../books/"> Katalog Buku</a></li>
-                <li><a href="../loans/"> Peminjaman Buku</a></li>
-                <li class="active"><a href="index.php"> Pembayaran Denda</a></li>
-                <li><a href="../attendance/"> Kehadiran</a></li>
-                <li><a href="../profile/"> Profil</a></li>
+                <li><a href="../dashboard/index.php">Dashboard</a></li>
+                <li><a href="../books/">Katalog Buku</a></li>
+                <li><a href="../loans/">Riwayat Peminjaman Buku</a></li>
+                <li class="active"><a href="index.php">Pembayaran Denda</a></li>
+                <li><a href="../attendance/">Riwayat Kehadiran</a></li>
+                <li><a href="../profile/">Profil</a></li>
             </ul>
         </div>
     </div>
@@ -724,7 +724,7 @@ if (
 
                 <div class="header-left">
 
-                    <h1>Denda & Pembayaran</h1>
+                    <h1>Pembayaran Denda</h1>
 
                     <p>
                         Lihat denda dan status pembayaran kamu.

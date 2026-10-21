@@ -630,13 +630,9 @@ if (
                                 ID Peminjaman
                             </th>
 
-                            <th>
-                                ID Anggota
-                            </th>
+                            
 
-                            <th>
-                                Member Code
-                            </th>
+                            
 
                             <th>
                                 Nama Anggota
@@ -1100,13 +1096,9 @@ function renderTable(data) {
                     denda.id_fine ||
                     "-";
 
-                const idUser =
-                    item.id_user ||
-                    "-";
+                
 
-                const memberCode =
-                    item.member_code ||
-                    "-";
+                
 
 
                 const nominal =
@@ -1136,13 +1128,9 @@ function renderTable(data) {
                             ${escapeHtml(idLoan)}
                         </td>
 
-                        <td>
-                            ${escapeHtml(idUser)}
-                        </td>
+                        
 
-                        <td>
-                            ${escapeHtml(memberCode)}
-                        </td>
+                        
 
                         <td>
                             ${escapeHtml(nama)}

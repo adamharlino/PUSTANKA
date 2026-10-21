@@ -10,7 +10,7 @@ if (
     exit;
 }
 
-$adminName = $_SESSION["nama"] ?? "Admin";
+$adminName =$_SESSION["nama"] ?? "Admin";
 ?>
 
 <!DOCTYPE html>
@@ -45,90 +45,11 @@ $adminName = $_SESSION["nama"] ?? "Admin";
         }
 
         /* =========================
-           SIDEBAR
-        ========================= */
-
-        .sidebar {
-            width: 250px;
-            background: #0f172a;
-            color: white;
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            padding: 24px 16px;
-            overflow-y: auto;
-            z-index: 100;
-        }
-
-        .brand {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 6px;
-            padding: 0 12px;
-        }
-
-        .brand-subtitle {
-            color: #94a3b8;
-            font-size: 12px;
-            padding: 0 12px;
-            margin-bottom: 28px;
-        }
-
-        .menu-title {
-            font-size: 11px;
-            text-transform: uppercase;
-            color: #64748b;
-            padding: 0 12px;
-            margin: 18px 0 8px;
-            font-weight: bold;
-        }
-
-        .menu a {
-            display: flex;
-            align-items: center;
-            gap: 11px;
-            padding: 11px 12px;
-            border-radius: 9px;
-            color: #cbd5e1;
-            margin-bottom: 4px;
-            font-size: 14px;
-            transition: .2s;
-        }
-
-        .menu a:hover {
-            background: #1e293b;
-            color: white;
-        }
-
-        .menu a.active {
-            background: #2563eb;
-            color: white;
-        }
-
-        .logout-btn {
-            width: 100%;
-            border: none;
-            background: #dc2626;
-            color: white;
-            padding: 11px 12px;
-            border-radius: 9px;
-            cursor: pointer;
-            margin-top: 20px;
-            font-size: 14px;
-        }
-
-        .logout-btn:hover {
-            background: #b91c1c;
-        }
-
-        /* =========================
            MAIN
         ========================= */
 
         .main {
-            margin-left: 250px;
-            width: calc(100% - 250px);
+            width: 100%;
             min-height: 100vh;
         }
 
@@ -469,15 +390,6 @@ $adminName = $_SESSION["nama"] ?? "Admin";
 
         @media (max-width: 900px) {
 
-            .sidebar {
-                width: 210px;
-            }
-
-            .main {
-                margin-left: 210px;
-                width: calc(100% - 210px);
-            }
-
             .content {
                 padding: 20px;
             }
@@ -489,14 +401,7 @@ $adminName = $_SESSION["nama"] ?? "Admin";
                 display: block;
             }
 
-            .sidebar {
-                position: static;
-                width: 100%;
-                min-height: auto;
-            }
-
             .main {
-                margin-left: 0;
                 width: 100%;
             }
 
@@ -539,90 +444,6 @@ $adminName = $_SESSION["nama"] ?? "Admin";
 <div class="layout">
 
     <!-- =========================
-         SIDEBAR
-    ========================== -->
-
-    <aside class="sidebar">
-
-        <div class="brand">
-            Pustanka
-        </div>
-
-        <div class="brand-subtitle">
-            Admin Panel
-        </div>
-
-        <div class="menu">
-
-            <div class="menu-title">
-                Utama
-            </div>
-
-            <a href="../dashboard/index.php">
-                📊 Dashboard
-            </a>
-
-            <a href="../profile/index.php">
-                👤 Profile
-            </a>
-
-            <div class="menu-title">
-                Perpustakaan
-            </div>
-
-            <a href="../books/index.php">
-                📚 Books
-            </a>
-
-            <a href="../users/index.php">
-                👥 Users
-            </a>
-
-            <a href="../loans/index.php">
-                📖 Loans
-            </a>
-
-            <a href="../returns/index.php">
-                ↩️ Returns
-            </a>
-
-            <a href="../attendance/index.php">
-                🕐 Attendance
-            </a>
-
-            <div class="menu-title">
-                Keuangan
-            </div>
-
-            <a href="./index.php" class="active">
-                💰 Fines
-            </a>
-
-            <a href="../payments/index.php">
-                💳 Payments
-            </a>
-
-            <div class="menu-title">
-                Laporan
-            </div>
-
-            <a href="../reports/index.php">
-                📈 Reports
-            </a>
-
-        </div>
-
-        <button
-            type="button"
-            class="logout-btn"
-            onclick="logout()"
-        >
-            🚪 Logout
-        </button>
-
-    </aside>
-
-    <!-- =========================
          MAIN
     ========================== -->
 
@@ -660,7 +481,7 @@ $adminName = $_SESSION["nama"] ?? "Admin";
                     href="./index.php"
                     class="back-btn"
                 >
-                    ← Kembali ke Fines
+                    ← Kembali
                 </a>
 
             </div>
@@ -904,7 +725,7 @@ $adminName = $_SESSION["nama"] ?? "Admin";
 
                     <div class="card-header">
 
-                        <span>👤</span>
+                        
 
                         <h2>
                             Data Peminjam
@@ -1022,7 +843,7 @@ $adminName = $_SESSION["nama"] ?? "Admin";
 
                     <div class="card-header">
 
-                        <span>📚</span>
+                        
 
                         <h2>
                             Data Buku
@@ -1170,7 +991,7 @@ $adminName = $_SESSION["nama"] ?? "Admin";
 
                     <div class="card-header">
 
-                        <span>📖</span>
+                        
 
                         <h2>
                             Data Peminjaman
@@ -1259,7 +1080,7 @@ $adminName = $_SESSION["nama"] ?? "Admin";
 
                     <div class="card-header">
 
-                        <span>💰</span>
+                        
 
                         <h2>
                             Informasi Denda
@@ -1344,7 +1165,7 @@ $adminName = $_SESSION["nama"] ?? "Admin";
 
                     <div class="card-header">
 
-                        <span>📝</span>
+                        
 
                         <h2>
                             Sinopsis Buku
@@ -1400,7 +1221,7 @@ $adminName = $_SESSION["nama"] ?? "Admin";
         ) {
 
             photoUrl =
-                "../../../" +
+                "../../../uploads/users/" +
                 photo;
         }
 

@@ -677,17 +677,9 @@ if (
                                 ID Pembayaran
                             </th>
 
-                            <th>
-                                ID Denda
-                            </th>
+                            
 
-                            <th>
-                                ID Anggota
-                            </th>
-
-                            <th>
-                                Member Code
-                            </th>
+                            
 
                             <th>
                                 Nama Anggota
@@ -1199,17 +1191,9 @@ function renderTable(data) {
                     "-";
 
 
-                const idFine =
-                    item.id_fine ||
-                    "-";
+                
 
-                const idUser =
-                    item.id_user ||
-                    "-";
-
-                const memberCode =
-                    item.member_code ||
-                    "-";
+                
 
 
                 const nama =
@@ -1260,17 +1244,9 @@ function renderTable(data) {
                             ${escapeHtml(idPayment)}
                         </td>
 
-                        <td>
-                            ${escapeHtml(idFine)}
-                        </td>
+                        
 
-                        <td>
-                            ${escapeHtml(idUser)}
-                        </td>
-
-                        <td>
-                            ${escapeHtml(memberCode)}
-                        </td>
+                        
 
                         <td>
                             ${escapeHtml(nama)}

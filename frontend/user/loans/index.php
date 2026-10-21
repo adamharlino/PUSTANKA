@@ -22,7 +22,7 @@ if (
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Peminjaman Saya - Pustanka</title>
+    <title>Riwayat Peminjaman Buku - Pustanka</title>
 
     <style>
         * {
@@ -615,12 +615,12 @@ if (
                 <h2>PUSTANKA</h2>
             </div>
             <ul class="sidebar-menu">
-                <li><a href="../dashboard/index.php"> Dashboard</a></li>
+                <li><a href="../dashboard/index.php">Dashboard</a></li>
                 <li><a href="../books/"> Katalog Buku</a></li>
-                <li class="active"><a href="index.php"> Peminjaman Buku</a></li>
-                <li><a href="../payments/"> Pembayaran Denda</a></li>
-                <li><a href="../attendance/"> Kehadiran</a></li>
-                <li><a href="../profile/"> Profil</a></li>
+                <li class="active"><a href="index.php">Riwayat Peminjaman Buku</a></li>
+                <li><a href="../payments/">Pembayaran Denda</a></li>
+                <li><a href="../attendance/">Riwayat Kehadiran</a></li>
+                <li><a href="../profile/">Profil</a></li>
             </ul>
         </div>
     </div>

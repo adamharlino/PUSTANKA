@@ -437,12 +437,12 @@ if (
                 <h2>PUSTANKA</h2>
             </div>
             <ul class="sidebar-menu">
-                <li><a href="../dashboard/index.php"> Dashboard</a></li>
-                <li class="active"><a href="index.php"> Katalog Buku</a></li>
-                <li><a href="../loans/"> Peminjaman Buku</a></li>
-                <li><a href="../payments/"> Pembayaran Denda</a></li>
-                <li><a href="../attendance/"> Kehadiran</a></li>
-                <li><a href="../profile/"> Profil</a></li>
+                <li><a href="../dashboard/index.php">Dashboard</a></li>
+                <li class="active"><a href="index.php">Katalog Buku</a></li>
+                <li><a href="../loans/">Riwayat Peminjaman Buku</a></li>
+                <li><a href="../payments/">Pembayaran Denda</a></li>
+                <li><a href="../attendance/">Riwayat Kehadiran</a></li>
+                <li><a href="../profile/">Profil</a></li>
             </ul>
         </div>
     </div>

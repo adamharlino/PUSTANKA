@@ -584,23 +584,23 @@ $adminName =$_SESSION["nama"] ?? "Admin";
             </a>
 
             <a href="../../books/">
-                <span>Buku</span>
+                <span>Kelola Data Buku</span>
             </a>
 
             <a href="../../users/">
-                <span>Anggota</span>
+                <span>Kelola Data Anggota</span>
             </a>
 
             <a href="../../loans/">
-                <span>Peminjaman</span>
+                <span>Riwayat Peminjaman Buku</span>
             </a>
 
             <a href="../../attendance/">
-                <span>Kehadiran</span>
+                <span>Kehadiran Anggota</span>
             </a>
 
             <a href="../../returns/">
-                <span>Pengembalian</span>
+                <span>Scan Pengembalian Buku</span>
             </a>
 
             <a href="./summary.php" class="active">
@@ -608,11 +608,11 @@ $adminName =$_SESSION["nama"] ?? "Admin";
             </a>
 
             <a href="../../fines/">
-                <span>Denda</span>
+                <span>Riwayat Denda</span>
             </a>
 
             <a href="../../payments/">
-                <span>Pembayaran</span>
+                <span>Riwayat Pembayaran Denda</span>
             </a>
 
         </nav>

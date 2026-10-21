@@ -18,7 +18,7 @@ if (
     exit;
 }
 
-$id_payment = $_GET["id"] ?? null;
+$id_payment =$_GET["id"] ?? null;
 
 if (
     !$id_payment ||
@@ -29,7 +29,7 @@ if (
     exit;
 }
 
-$id_payment = (int) $id_payment;
+$id_payment = (int)$id_payment;
 
 ?>
 
@@ -56,48 +56,8 @@ $id_payment = (int) $id_payment;
             color: #1f2937;
         }
 
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 240px;
-            height: 100vh;
-            background: #0f2747;
-            color: white;
-            padding: 25px 15px;
-            overflow-y: auto;
-        }
-
-        .brand {
-            font-size: 25px;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .menu {
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-        }
-
-        .menu a {
-            text-decoration: none;
-            color: #dbeafe;
-            padding: 12px 15px;
-            border-radius: 8px;
-            display: block;
-            transition: .2s;
-        }
-
-        .menu a:hover,
-        .menu a.active {
-            background: #2563eb;
-            color: white;
-        }
-
         .main {
-            margin-left: 240px;
+            width: 100%;
             padding: 30px;
         }
 
@@ -401,7 +361,7 @@ $id_payment = (int) $id_payment;
         }
 
         .btn-approve {
-    background: #16a34a;
+            background: #16a34a;
         }
 
         .btn-approve:hover {
@@ -423,14 +383,6 @@ $id_payment = (int) $id_payment;
 
         @media (max-width: 900px) {
 
-            .sidebar {
-                width: 200px;
-            }
-
-            .main {
-                margin-left: 200px;
-            }
-
             .grid {
                 grid-template-columns: 1fr;
             }
@@ -439,14 +391,7 @@ $id_payment = (int) $id_payment;
 
         @media (max-width: 650px) {
 
-            .sidebar {
-                position: relative;
-                width: 100%;
-                height: auto;
-            }
-
             .main {
-                margin-left: 0;
                 padding: 20px;
             }
 
@@ -471,72 +416,20 @@ $id_payment = (int) $id_payment;
 
 <body>
 
-<aside class="sidebar">
-
-    <div class="brand">
-        📚 PUSTANKA
-    </div>
-
-    <nav class="menu">
-
-        <a href="../dashboard/index.php">
-            📊 Dashboard
-        </a>
-
-        <a href="../profile/index.php">
-            👤 Profile
-        </a>
-
-        <a href="../books/index.php">
-            📚 Books
-        </a>
-
-        <a href="../users/index.php">
-            👥 Users
-        </a>
-
-        <a href="../loans/index.php">
-            📋 Loans
-        </a>
-
-        <a href="../attendance/index.php">
-            🕐 Attendance
-        </a>
-
-        <a href="../returns/index.php">
-            ↩️ Returns
-        </a>
-
-        <a href="../reports/index.php">
-            📈 Reports
-        </a>
-
-        <a href="../fines/index.php">
-            💰 Fines
-        </a>
-
-        <a href="index.php" class="active">
-            💳 Payments
-        </a>
-
-    </nav>
-
-</aside>
-
 <main class="main">
 
     <div class="topbar">
 
-        <h1>💳 Detail Payment</h1>
+        <h1>Detail Pembayaran Denda</h1>
 
         <div class="admin-name">
-            👤 <?= htmlspecialchars($_SESSION["nama"] ?? "Admin") ?>
+            <?= htmlspecialchars($_SESSION["nama"] ?? "Admin") ?>
         </div>
 
     </div>
 
     <a href="index.php" class="back-button">
-        ← Kembali ke Payments
+        ← Kembali
     </a>
 
     <div id="message" class="message"></div>
@@ -599,7 +492,7 @@ $id_payment = (int) $id_payment;
             <div class="card">
 
                 <h3>
-                    💳 Informasi Pembayaran
+                    Informasi Pembayaran
                 </h3>
 
                 <div class="info-row">
@@ -649,7 +542,7 @@ $id_payment = (int) $id_payment;
             <div class="card">
 
                 <h3>
-                    💰 Informasi Denda
+                    Informasi Denda
                 </h3>
 
                 <div class="info-row">
@@ -689,7 +582,7 @@ $id_payment = (int) $id_payment;
             <div class="card">
 
                 <h3>
-                    👤 Data Peminjam
+                    Data Peminjam
                 </h3>
 
                 <div class="profile">
@@ -748,7 +641,7 @@ $id_payment = (int) $id_payment;
             <div class="card">
 
                 <h3>
-                    📚 Data Buku
+                    Data Buku
                 </h3>
 
                 <div class="book-content">
@@ -837,7 +730,7 @@ $id_payment = (int) $id_payment;
             <div class="card">
 
                 <h3>
-                    📋 Data Peminjaman
+                    Data Peminjaman
                 </h3>
 
                 <div class="info-row">
@@ -897,7 +790,7 @@ $id_payment = (int) $id_payment;
             <div class="card proof-card">
 
                 <h3>
-                    🧾 Bukti Pembayaran
+                    Bukti Pembayaran
                 </h3>
 
                 <div

@@ -511,7 +511,6 @@ if (
                             <th>No</th>
                             <th>ID Peminjaman</th>
                             <th>ID Anggota</th>
-                            <th>Member Code</th>
                             <th>Nama Anggota</th>
                             <th>Judul Buku</th>
                             <th>Tanggal Pinjam</th>
@@ -913,9 +912,7 @@ function renderTable(data) {
                     "-";
 
 
-                const memberCode =
-                    loan.member_code ??
-                    "-";
+                
 
 
                 const namaUser =
@@ -966,11 +963,7 @@ function renderTable(data) {
                             ${idUser}
                         </td>
 
-                        <td>
-                            ${escapeHtml(
-                                memberCode
-                            )}
-                        </td>
+                        
 
                         <td>
                             ${escapeHtml(

@@ -347,7 +347,7 @@
                 <div class="form-group">
 
                     <label for="no_telp">
-                        No. Telepon
+                        No. Telepon <span class="required">*</span>
                     </label>
 
                     <input
@@ -357,6 +357,7 @@
                         placeholder="Contoh: 081234567890"
                         maxlength="15"
                         inputmode="tel"
+                        required
                     >
 
                 </div>
